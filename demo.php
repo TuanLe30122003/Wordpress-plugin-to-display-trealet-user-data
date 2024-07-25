@@ -70,6 +70,14 @@ function display_custom_text()
 
 	echo "<div class='cover'>"; // The cover div will be the overall cover for this component
 
+	echo "<div class='search'>";
+
+	search_bar();
+
+	echo "</div>";
+
+	echo "<div class='bot-cover'>";
+
 	echo "<div class='option-section'>"; // The left part of the component
 
 	echo "<div class='header'>Article list</div>";
@@ -83,8 +91,6 @@ function display_custom_text()
 
 	echo "<div class='option_content'>";
 
-	search_bar();
-
 	display_articles($data); 	// This is the content of for each article on the list
 
 	echo "</div>";
@@ -95,6 +101,8 @@ function display_custom_text()
 	// TESTING
 
 	echo "<div>" . $list_type_option . "</div>";
+
+	echo "</div>";
 }
 
 function display_articles($data)
