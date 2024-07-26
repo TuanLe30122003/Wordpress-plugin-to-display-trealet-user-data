@@ -70,7 +70,7 @@ function display_custom_text()
 
 	echo "<div class='cover'>"; // The cover div will be the overall cover for this component
 
-	echo "<div class='search'>";
+	echo "<div class='search light-theme-background'>";
 
 	search_bar();
 
