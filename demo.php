@@ -191,7 +191,13 @@ function search_bar()
 						<button id="remove_button" disabled="true">RESET</button>
 						</div>
 				</div>
+
 			';
+}
+
+function change_class()
+{
+	return 0;
 }
 
 function sort_option_list()
