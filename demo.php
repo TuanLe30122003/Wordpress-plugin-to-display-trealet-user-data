@@ -58,10 +58,18 @@ function run_demo()
 }
 run_demo();
 
+$option_name = 'Demo_setting';
+
 function display_custom_text()
 {
 	$url = "https://trealet.com/api/my-trealets/1232";
-	$list_type_option = get_option("Demo_setting_bool");
+	$list_type_option = get_option("Demo_setting_bool"); // is dark 
+
+	$is_dark_mode = $list_type_option;
+
+	$theme_background = $is_dark_mode == "true" ? "dark-theme-background" : "light-theme-background";
+
+
 	$article_count_on_page = 10;
 
 
@@ -70,7 +78,7 @@ function display_custom_text()
 
 	echo "<div class='cover'>"; // The cover div will be the overall cover for this component
 
-	echo "<div class='search light-theme-background'>";
+	echo "<div class='search {$theme_background}'>";
 
 	search_bar();
 
@@ -78,7 +86,7 @@ function display_custom_text()
 
 	echo "<div class='bot-cover'>";
 
-	echo "<div class='option-section'>"; // The left part of the component
+	echo "<div class='option-section {$theme_background}'>"; // The left part of the component
 
 	echo "<div class='header'>Article list</div>";
 
@@ -89,7 +97,7 @@ function display_custom_text()
 
 	// The right side below 
 
-	echo "<div class='option_content'>";
+	echo "<div class='option_content {$theme_background}'>";
 
 	display_articles($data); 	// This is the content of for each article on the list
 
@@ -100,7 +108,9 @@ function display_custom_text()
 
 	// TESTING
 
-	echo "<div>" . $list_type_option . "</div>";
+	echo "<div>" . $is_dark_mode . "</div>";
+
+	echo "</div>";
 
 	echo "</div>";
 }
@@ -187,9 +197,9 @@ function search_bar()
 					<div class="input-group">
 						<label class="label"></label>
 						<input autocomplete="off" name="title_search" id="title_search" class="input" type="email" placeholder="Search for article ">
-						<button id="search_button">FIND</button>
-						<button id="remove_button" disabled="true">RESET</button>
-						</div>
+						<a id="search_button">FIND</a>
+						<a id="remove_button" disabled="true">RESET</a>
+					</div>
 				</div>
 
 			';

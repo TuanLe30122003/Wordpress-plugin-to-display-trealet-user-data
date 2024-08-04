@@ -1,7 +1,29 @@
 .light-theme-background {
     background-color: #ccc;
+    color: #000;
 }
 
-.light-theme-color {
-    color: #000;
+.dark-theme-background {
+    background-color: #212121;
+    color: #fff;
+}
+
+.dark-theme-background>.search_bar a {
+    color: #000 !important;
+    background-color: #e8e8e8;
+}
+
+.light-theme-background>.search_bar a {
+    color: #fff !important;
+    background-color: #212121;
+}
+
+.dark-theme-background>.search_bar a:hover {
+    background-color: #000;
+    color: #fff !important;
+}
+
+.light-theme-background>.search_bar a {
+    background-color: #fff;
+    color: #000 !important;
 }

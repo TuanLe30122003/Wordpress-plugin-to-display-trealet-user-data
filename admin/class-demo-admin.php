@@ -122,6 +122,8 @@ class Demo_Admin
 			$this->option_name . '_general',
 			array('label_for' => $this->option_name . '_number')
 		);
+
+		
 		// Register the boolean field
 		register_setting($this->plugin_name, $this->option_name . '_bool', array($this, $this->option_name . '_sanitize_bool'));
 		// Register the numeric field
