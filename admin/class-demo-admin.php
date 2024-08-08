@@ -113,21 +113,43 @@ class Demo_Admin
 			$this->option_name . '_general',
 			array('label_for' => $this->option_name . '_bool')
 		);
+
+		add_settings_field(
+			$this->option_name . '_bool1',
+			__('Dark mode ?', 'Demo'),
+			array($this, $this->option_name . '_bool1_cb'),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array('label_for' => $this->option_name . '_bool1')
+		);
+
 		// Add a numeric field
 		add_settings_field(
 			$this->option_name . '_number',
-			__('Number setting', 'Demo'),
+			__('Number of items on each page', 'Demo'),
 			array($this, $this->option_name . '_number_cb'),
 			$this->plugin_name,
 			$this->option_name . '_general',
 			array('label_for' => $this->option_name . '_number')
 		);
 
-		
+		add_settings_field(
+			$this->option_name . '_number1',
+			__('Number setting', 'Demo'),
+			array($this, $this->option_name . '_number1_cb'),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array('label_for' => $this->option_name . '_number1')
+		);
+
+
 		// Register the boolean field
 		register_setting($this->plugin_name, $this->option_name . '_bool', array($this, $this->option_name . '_sanitize_bool'));
+		register_setting($this->plugin_name, $this->option_name . '_bool1', array($this, $this->option_name . '_sanitize_bool'));
+
 		// Register the numeric field
 		register_setting($this->plugin_name, $this->option_name . '_number', 'integer');
+		register_setting($this->plugin_name, $this->option_name . '_number1', 'integer');
 	}
 
 	/**
@@ -153,6 +175,12 @@ class Demo_Admin
 		echo '<input type="text" name="' . $this->option_name . '_number' . '" id="' . $this->option_name . '_number' . '" value="' . $val . '"> ' . __('(unity of measure)', 'Demo');
 	}
 
+	public function demo_setting_number1_cb()
+	{
+		$val = get_option($this->option_name . '_number1');
+		echo '<input type="text" name="' . $this->option_name . '_number1' . '" id="' . $this->option_name . '_number1' . '" value="' . $val . '"> ' . __('(unity of measure)', 'Demo');
+	}
+
 	/**
 	 * Render the radio input field for boolean option
 	 *
@@ -174,6 +202,26 @@ class Demo_Admin
         <input type="radio" name="<?php echo $this->option_name . '_bool' ?>" value="false"
             <?php checked($val, 'false'); ?>>
         <?php _e('Page list', 'Demo'); ?>
+    </label>
+</fieldset>
+<?php
+	}
+
+	public function demo_setting_bool1_cb()
+	{
+		$val = get_option($this->option_name . '_bool1');
+		?>
+<fieldset>
+    <label>
+        <input type="radio" name="<?php echo $this->option_name . '_bool1' ?>"
+            id="<?php echo $this->option_name . '_bool1' ?>" value="true" <?php checked($val, 'true'); ?>>
+        <?php _e('Dark mode ', 'Demo'); ?>
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="<?php echo $this->option_name . '_bool1' ?>" value="false"
+            <?php checked($val, 'false'); ?>>
+        <?php _e('Light Mode', 'Demo'); ?>
     </label>
 </fieldset>
 <?php

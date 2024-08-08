@@ -63,9 +63,8 @@ $option_name = 'Demo_setting';
 function display_custom_text()
 {
 	$url = "https://trealet.com/api/my-trealets/1232";
-	$list_type_option = get_option("Demo_setting_bool"); // is dark 
-
-	$is_dark_mode = $list_type_option;
+	$is_dark_mode = get_option("Demo_setting_bool1"); // is dark $list_type_option
+	$list_type_option = get_option("Demo_setting_bool");
 
 	$theme_background = $is_dark_mode == "true" ? "dark-theme-background" : "light-theme-background";
 
