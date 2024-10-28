@@ -1,29 +1,17 @@
-.light-theme-background {
-    background-color: #ccc;
-    color: #000;
+.dark-theme-background {
+    background-color: #181717!important;
+    color: #646261;
 }
 
-.dark-theme-background {
-    background-color: #212121;
+.item-dark-theme {
+    background-color: #21201f;
     color: #fff;
 }
 
-.dark-theme-background>.search_bar a {
-    color: #000 !important;
-    background-color: #e8e8e8;
+.name-color-darkmode { 
+    color: #fff!important;
 }
 
-.light-theme-background>.search_bar a {
-    color: #fff !important;
-    background-color: #212121;
-}
-
-.dark-theme-background>.search_bar a:hover {
-    background-color: #000;
-    color: #fff !important;
-}
-
-.light-theme-background>.search_bar a {
-    background-color: #fff;
-    color: #000 !important;
+.white-border {
+    border: 1px solid #fff!important;
 }

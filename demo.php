@@ -63,40 +63,58 @@ $option_name = 'Demo_setting';
 function display_custom_text()
 {
 	$url = "https://trealet.com/api/my-trealets/1232";
-	$is_dark_mode = get_option("Demo_setting_bool1"); // is dark $list_type_option
+	$is_dark_mode = get_option("Demo_setting_bool1") == "true" ? true : false; // is dark $list_type_option
 	$list_type_option = get_option("Demo_setting_bool");
 
-	$theme_background = $is_dark_mode == "true" ? "dark-theme-background" : "light-theme-background";
-
+	$theme_background = $is_dark_mode ? "dark-theme-background" : "light-theme-background";
+	$theme_item = $is_dark_mode ? "item-dark-theme" : "";
+	$white_color = $is_dark_mode ? "name-color-darkmode" : "";
+	$white_border = $is_dark_mode ? "white-border" : "";
 
 	$article_count_on_page = 10;
-
 
 	$data = get_data($url);
 	apply_icon_library();
 
 	echo "<div class='cover'>"; // The cover div will be the overall cover for this component
 
-	echo "<div class='search {$theme_background}'>";
+	echo "<div class='overlay'>";
 
-	search_bar();
+	echo "<div class='login-phrase'>
+		<h1>Enter user ID to open Trealer data</h1>
+		<div class='id-input'>
+			<input placeholder='Enter ID here' type='number'/>
+			<div class=''><ion-icon name='enter-outline'></ion-icon></div>
+		</div>		
+	</div>";
 
 	echo "</div>";
 
-	echo "<div class='bot-cover'>";
+	echo "<div class='bot-cover {$theme_background}'>";
 
 	echo "<div class='option-section {$theme_background}'>"; // The left part of the component
 
-	echo "<div class='header'>Article list</div>";
+	echo "<div class='header {$white_color}'>
+			<div class='user'>
+				<div class='user_info'>
+					<h1>QuangTuann</h1>
+				</div>
+			</div>
+				<div class='log_out'>
+					<ion-icon name='log-out-outline'></ion-icon>
+				</div>
+	</div>";
 
-	sort_option_list();
+	search_bar();
+
+	// sort_option_list();
 	display_article_list($data, $list_type_option, $article_count_on_page);
 
 	echo "</div>";
 
 	// The right side below 
 
-	echo "<div class='option_content {$theme_background}'>";
+	echo "<div class='option_content {$theme_item}'>";
 
 	display_articles($data); 	// This is the content of for each article on the list
 
@@ -124,41 +142,60 @@ function display_articles($data)
 
 			$trealet = $jsonToOject['trealet'];
 			$items = $trealet['items'];
+
 			echo "<h2 class='content-title-name' data-id='$key'>" . $value['title'] . "</h2>";
+			// echo "<div class='content-wrap'>";
 
 			foreach ($items as $elements) {
 				foreach ($elements as $key1 => $value1) {
-
-					echo "<div class='content_unit' data-id='$key'>";
-
 					if ($key1 == "video") {
-						echo "<h3>" . $value1['video_title'] . "</h3>";
+						echo "<div class='content_unit' data-id='$key'>";
+
+						$videoTitle = $value1['video_title'] != "" ? $value1['video_title'] : "(User didn't add title yet)";
+
+						echo "<div class='content_unit_title'>";
+						echo "<h3>" . $videoTitle . "</h3>";
 						echo "<p>" . $value1['description_video'] . "</p>";
+						echo "</div>";
 						$linkVideo = "https://trealet.com" . substr($value1['video_src'], 2);
-						$videoWidth = 600;
-						$videoHeight = 450;
+						$videoWidth = 250;
+						$videoHeight = 250;
 						$videoType = "video/mp4";
-						echo "<video width='$videoWidth' height='$videoHeight' controls muted><source src='$linkVideo' type='$videoType'>Video not found</video><br>";
+						echo "<div><video width='$videoWidth' height='$videoHeight' controls muted><source src='$linkVideo' type='$videoType'>Video not found</video></div>";
+						echo "</div>";
+
 					} else if ($key1 == "picture") {
-						echo "<h3>" . $value1['picture_title'] . "</h3>";
+						echo "<div class='content_unit' data-id='$key'>";
+						$pic_title = $value1['picture_title'] != "" ? $value1['picture_title'] : "(User didn't add title yet)";
+
+
+						echo "<div class='content_unit_title'>";
+						echo "<h3>" . $pic_title . "</h3>";
 						echo "<p>" . $value1['description_image'] . "</p>";
+						echo "</div>";
 						$linkImage = "https://trealet.com" . substr($value1['picture_src'], 2);
 						echo "<img src='$linkImage' class='picture'>";
+						echo "</div>";
+
 					} else if ($key1 == "audio") {
+						echo "<div class='content_unit' data-id='$key'>";
+
+						echo "<div class='content_unit_title'>";
 						echo "<h3>" . $value1['audio_title'] . "</h3>";
 						echo "<p>" . $value1['description_audio'] . "</p>";
+						echo "</div>";
 						$linkAudio = "https://trealet.com" . substr($value1['audio_src'], 2);
 						echo "<audio controls>
 								<source src='$linkAudio' class='audio'>
 							</audio>";
-					} else {
-						echo 'Other media';
-					}
+						echo "</div>";
 
-					echo "</div>";
-					// echo "<br>";
+					} else {
+						// echo 'Other media';
+					}
 				}
 			}
+			// echo "</div>";
 		}
 	}
 }
@@ -193,12 +230,8 @@ function search_bar()
 
 	echo '
 				<div class="search_bar">
-					<div class="input-group">
-						<label class="label"></label>
-						<input autocomplete="off" name="title_search" id="title_search" class="input" type="email" placeholder="Search for article ">
-						<a id="search_button">FIND</a>
-						<a id="remove_button" disabled="true">RESET</a>
-					</div>
+					<input class="search-input" placeholder="Search for article ..." />
+					<div class="search-icon"><ion-icon name="search-outline"></ion-icon></div>
 				</div>
 
 			';
@@ -240,6 +273,8 @@ function display_article_list($data, $list_type_option, $article_count_on_page)
 			$activeStatus = ($key == sizeof($data) - 1) ? true : false;
 
 			echo "<li class='title' data-id='$key' data-active='$activeStatus'><span>" . str_pad($count++, 2, '0', STR_PAD_LEFT) . "</span><p>" . $value['title'] . "</p></li>";
+			// echo "<li class='title' data-id='$key' data-active='$activeStatus'><span>" . str_pad($count++, 2, '0', STR_PAD_LEFT) . "</span><p>" . 'Tieu de cua du lieu' . "</p></li>";
+
 		}
 
 		echo "</ul>";

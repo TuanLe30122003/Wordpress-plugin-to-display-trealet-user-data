@@ -75,8 +75,8 @@ class Demo_Public
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_style("CSS1", plugin_dir_url(__FILE__) . 'css/theme.css', array(), $this->version, 'all');
-		wp_enqueue_style("CSS2", plugin_dir_url(__FILE__) . 'css/demo-public.css', array(), $this->version, 'all');
+		wp_enqueue_style("CSS1", plugin_dir_url(__FILE__) . 'css/theme.css', [], $this->version, 'all');
+		wp_enqueue_style("CSS2", plugin_dir_url(__FILE__) . 'css/demo-public.css', [], $this->version, 'all');
 
 	}
 

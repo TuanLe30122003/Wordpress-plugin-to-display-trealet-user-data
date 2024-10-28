@@ -6,19 +6,21 @@ document.addEventListener('DOMContentLoaded', function () {
 	const contents = document.querySelectorAll('.content_unit');
 	const titles = document.querySelectorAll('.content-title-name');
 
+
 	options.forEach(function (option) {
 		option.addEventListener('click', function () {
 			const optionId = this.dataset.id;
 
 			options.forEach(function (opt) {
 				opt.classList.remove('clicked');
+				opt.classList.add("unClicked");
 			});
 
 			contents.forEach(function (content) {
 				const contentId = content.dataset.id;
 
 				if (optionId === contentId) {
-					content.style.display = 'block';
+					content.style.display = 'flex';
 				} else {
 					content.style.display = 'none';
 				}
@@ -34,48 +36,42 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 			});
 
+			this.classList.remove('unClicked');
 			this.classList.add('clicked');
 		});
 	});
 
 	options[0].click();
 
-	const title_search = document.getElementById("title_search");
-	// console.log(title_search.value);
+	const searchInput = document.querySelectorAll(".search-input")
 
-	const summit = document.getElementById("search_button");
-	const remove = document.getElementById("remove_button");
-	// console.log(summit);
+	searchInput[0].addEventListener("keydown", (event) => {
+		if (event.key === "Enter") {
+			const query = event.target.value.toLowerCase()
 
-	summit.onclick = function () {
-		const current_value = title_search.value.toLowerCase();
-		title_search.value = "";
+			let result = []
 
-		let result = [];
+			options.forEach(function (option) {
 
-		options.forEach(function (option) {
+				if (option.innerText.toLowerCase().includes(query)) {
+					result.push(option);
+					option.style.display = "flex";
+					console.log(option)
+				} else {
+					option.style.display = "none";
+				}
+			})
 
-			remove.disabled = false;
+			result[0].click();
+		}
+	})
 
-			if (option.innerText.toLowerCase().includes(current_value)) {
-				result.push(option);
-				option.style.display = "flex";
-			} else {
-				option.style.display = "none";
-			}
+	const idInput = document.querySelectorAll(".id-input")
+	const overlay = document.querySelectorAll(".overlay")
 
-		})
-
-		result[0].click();
-	}
-
-	remove.onclick = function () {
-		options.forEach(function (option) {
-			option.style.display = "flex";
-		})
-
-		this.disabled = true;
-	}
-
-
+	idInput[0].addEventListener("keydown", (event) => {
+		if (event.key === "Enter") {
+			overlay[0].style.display = "none"
+		}
+	})
 });
