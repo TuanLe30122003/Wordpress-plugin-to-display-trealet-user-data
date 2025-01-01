@@ -135,7 +135,7 @@ class Demo_Admin
 
 		add_settings_field(
 			$this->option_name . '_number1',
-			__('Number setting', 'Demo'),
+			__('User ID on trealet.com', 'Demo'),
 			array($this, $this->option_name . '_number1_cb'),
 			$this->plugin_name,
 			$this->option_name . '_general',
@@ -172,13 +172,13 @@ class Demo_Admin
 	public function demo_setting_number_cb()
 	{
 		$val = get_option($this->option_name . '_number');
-		echo '<input type="text" name="' . $this->option_name . '_number' . '" id="' . $this->option_name . '_number' . '" value="' . $val . '"> ' . __('(unity of measure)', 'Demo');
+		echo '<input type="text" name="' . $this->option_name . '_number' . '" id="' . $this->option_name . '_number' . '" value="' . $val . '"> ' . __('(items)', 'Demo');
 	}
 
 	public function demo_setting_number1_cb()
 	{
 		$val = get_option($this->option_name . '_number1');
-		echo '<input type="text" name="' . $this->option_name . '_number1' . '" id="' . $this->option_name . '_number1' . '" value="' . $val . '"> ' . __('(unity of measure)', 'Demo');
+		echo '<input type="text" name="' . $this->option_name . '_number1' . '" id="' . $this->option_name . '_number1' . '" value="' . $val . '"> ' . __('', 'Demo');
 	}
 
 	/**
@@ -191,40 +191,38 @@ class Demo_Admin
 	{
 		$val = get_option($this->option_name . '_bool');
 		?>
-<fieldset>
-    <label>
-        <input type="radio" name="<?php echo $this->option_name . '_bool' ?>"
-            id="<?php echo $this->option_name . '_bool' ?>" value="true" <?php checked($val, 'true'); ?>>
-        <?php _e('Scrolling list', 'Demo'); ?>
-    </label>
-    <br>
-    <label>
-        <input type="radio" name="<?php echo $this->option_name . '_bool' ?>" value="false"
-            <?php checked($val, 'false'); ?>>
-        <?php _e('Page list', 'Demo'); ?>
-    </label>
-</fieldset>
-<?php
+		<fieldset>
+			<label>
+				<input type="radio" name="<?php echo $this->option_name . '_bool' ?>"
+					id="<?php echo $this->option_name . '_bool' ?>" value="true" <?php checked($val, 'true'); ?>>
+				<?php _e('Scrolling list', 'Demo'); ?>
+			</label>
+			<br>
+			<label>
+				<input type="radio" name="<?php echo $this->option_name . '_bool' ?>" value="false" <?php checked($val, 'false'); ?>>
+				<?php _e('Page list', 'Demo'); ?>
+			</label>
+		</fieldset>
+		<?php
 	}
 
 	public function demo_setting_bool1_cb()
 	{
 		$val = get_option($this->option_name . '_bool1');
 		?>
-<fieldset>
-    <label>
-        <input type="radio" name="<?php echo $this->option_name . '_bool1' ?>"
-            id="<?php echo $this->option_name . '_bool1' ?>" value="true" <?php checked($val, 'true'); ?>>
-        <?php _e('Dark mode ', 'Demo'); ?>
-    </label>
-    <br>
-    <label>
-        <input type="radio" name="<?php echo $this->option_name . '_bool1' ?>" value="false"
-            <?php checked($val, 'false'); ?>>
-        <?php _e('Light Mode', 'Demo'); ?>
-    </label>
-</fieldset>
-<?php
+		<fieldset>
+			<label>
+				<input type="radio" name="<?php echo $this->option_name . '_bool1' ?>"
+					id="<?php echo $this->option_name . '_bool1' ?>" value="true" <?php checked($val, 'true'); ?>>
+				<?php _e('Dark mode ', 'Demo'); ?>
+			</label>
+			<br>
+			<label>
+				<input type="radio" name="<?php echo $this->option_name . '_bool1' ?>" value="false" <?php checked($val, 'false'); ?>>
+				<?php _e('Light Mode', 'Demo'); ?>
+			</label>
+		</fieldset>
+		<?php
 	}
 
 	/**

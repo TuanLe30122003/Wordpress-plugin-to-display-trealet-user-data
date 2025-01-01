@@ -62,53 +62,39 @@ $option_name = 'Demo_setting';
 
 function display_custom_text()
 {
+	$userID = get_option("Demo_setting_number1");
+	// $url = "https://trealet.com/api/my-trealets/" . $userID;
 	$url = "https://trealet.com/api/my-trealets/1232";
+
 	$is_dark_mode = get_option("Demo_setting_bool1") == "true" ? true : false; // is dark $list_type_option
 	$list_type_option = get_option("Demo_setting_bool");
 
 	$theme_background = $is_dark_mode ? "dark-theme-background" : "light-theme-background";
 	$theme_item = $is_dark_mode ? "item-dark-theme" : "";
 	$white_color = $is_dark_mode ? "name-color-darkmode" : "";
-	$white_border = $is_dark_mode ? "white-border" : "";
 
-	$article_count_on_page = 10;
+	$article_count_on_page = 5;
 
 	$data = get_data($url);
 	apply_icon_library();
 
 	echo "<div class='cover'>"; // The cover div will be the overall cover for this component
 
-	echo "<div class='overlay'>";
-
-	echo "<div class='login-phrase'>
-		<h1>Enter user ID to open Trealer data</h1>
-		<div class='id-input'>
-			<input placeholder='Enter ID here' type='number'/>
-			<div class=''><ion-icon name='enter-outline'></ion-icon></div>
-		</div>		
-	</div>";
-
-	echo "</div>";
-
 	echo "<div class='bot-cover {$theme_background}'>";
 
 	echo "<div class='option-section {$theme_background}'>"; // The left part of the component
 
 	echo "<div class='header {$white_color}'>
-			<div class='user'>
-				<div class='user_info'>
-					<h1>QuangTuann</h1>
-				</div>
+			<div class='trealet-logo'>
+				<h1>Trealet</h1>
+				<p>Knowledge of Art & Culture</p>
 			</div>
-				<div class='log_out'>
-					<ion-icon name='log-out-outline'></ion-icon>
-				</div>
 	</div>";
 
 	search_bar();
 
 	// sort_option_list();
-	display_article_list($data, $list_type_option, $article_count_on_page);
+	display_article_list($data, $list_type_option, $article_count_on_page, $is_dark_mode);
 
 	echo "</div>";
 
@@ -125,7 +111,7 @@ function display_custom_text()
 
 	// TESTING
 
-	echo "<div>" . $is_dark_mode . "</div>";
+	// echo "<div>" . $userID . "</div>";
 
 	echo "</div>";
 
@@ -134,6 +120,12 @@ function display_custom_text()
 
 function display_articles($data)
 {
+
+	if($data == null) {
+		echo "<h3>Có vấn đề trong việc xử lý dữ liệu, hãy thử lại sau!</h3>";
+		return ;
+	} 
+
 	foreach ($data as $key => $value) {
 
 		$jsonToOject = json_decode($value['json'], true);
@@ -180,8 +172,10 @@ function display_articles($data)
 					} else if ($key1 == "audio") {
 						echo "<div class='content_unit' data-id='$key'>";
 
+						$audio_title = $value1['audio_title'] != "" ? $value1['audio_title'] : "(User didn't add title yet)";
+
 						echo "<div class='content_unit_title'>";
-						echo "<h3>" . $value1['audio_title'] . "</h3>";
+						echo "<h3>" . $audio_title . "</h3>";
 						echo "<p>" . $value1['description_audio'] . "</p>";
 						echo "</div>";
 						$linkAudio = "https://trealet.com" . substr($value1['audio_src'], 2);
@@ -191,11 +185,13 @@ function display_articles($data)
 						echo "</div>";
 
 					} else {
-						// echo 'Other media';
+						// echo 'Other media';	
 					}
 				}
 			}
 			// echo "</div>";
+		} else {
+
 		}
 	}
 }
@@ -254,10 +250,12 @@ function sort_option_list()
 			</div>"; // Data sorting options
 }
 
-function display_article_list($data, $list_type_option, $article_count_on_page)
+function display_article_list($data, $list_type_option, $article_count_on_page, $is_dark_mode)
 {
 
 	$count = 1;
+	$background = $is_dark_mode ? "dark-scrollbar" : "light-scrollbar";
+	$unit = $is_dark_mode ? "dark-scrollbar-unit" : "light-scrollbar-unit";
 
 	if (!$data) {
 		echo "<div>ERROR with data</div>";
@@ -265,7 +263,7 @@ function display_article_list($data, $list_type_option, $article_count_on_page)
 	}
 
 	if ($list_type_option == "true") {
-		echo "<ul class='article_list_scroll'>"; // This is the list of articles 
+		echo "<ul class='article_list_scroll {$background}'>"; // This is the list of articles 
 
 
 		foreach ($data as $key => $value) {
@@ -283,24 +281,31 @@ function display_article_list($data, $list_type_option, $article_count_on_page)
 
 		$page_count = count($data) / $article_count_on_page + 1;
 
-		$current_page = 1; // add this to a parameter of ul elements
+		$current_page = 2; // add this to a parameter of ul elements
 
-		echo "<ul class='article_list_page'>";
+		echo "<ul class='article_list_page {$background}'>";
 
 		foreach ($data as $key => $value) {
 
+			$number_of_article = sizeof($data) - $key;
+
 			$activeStatus = ($key == sizeof($data) - 1) ? true : false;
 
-			echo "<li class='title' data-id='$key' data-active='$activeStatus'><span>" . str_pad($count++, 2, '0', STR_PAD_LEFT) . "</span><p>" . $value['title'] . "</p></li>";
+			echo "<li class='title' data-id='$key' data-active='$activeStatus'><span>" . str_pad($number_of_article, 2, '0', STR_PAD_LEFT) . "</span><p>" . $value['title'] . "</p></li>";
+
 		}
 
 		echo "</ul>";
 
 		echo "<ul class='page_option'>";
 
-		for ($i = 1; $i <= $page_count; $i++) {
-			echo "<li>" . $i . "</li>";
-		}
+		echo "<li class='pre'><ion-icon name='chevron-back-outline'></ion-icon></li>";
+
+		echo "<li class='pos1'>1</li>";
+		echo "<li class='pos2'>1</li>";
+		echo "<li class='pos3'>1</li>";
+
+		echo "<li class='next'><ion-icon name='chevron-forward-outline'></ion-icon></li>";
 
 		echo "</ul>";
 	}
